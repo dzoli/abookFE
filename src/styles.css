@@ -30,3 +30,12 @@ mat-radio-group mat-radio-button {
 .button-row  button{
   margin-left: 20px;
 }
+
+body {
+  margin: 0px;
+}
+
+html,
+body {
+  height: 100%;
+}

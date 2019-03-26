@@ -10,20 +10,35 @@ import { EmployeeService } from './shared/employee.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessageComponent } from './employees/message/message.component';
+import { MainNavComponent } from './main-nav/main-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { Molba1Component } from './molba1/molba1.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     EmployeesComponent,
     EmployeeComponent,
-    MessageComponent
+    MessageComponent,
+    MainNavComponent,
+    Molba1Component
   ],
   imports: [
     BrowserModule,
+    PdfViewerModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule
   ],
   providers: [EmployeeService],
   bootstrap: [AppComponent]
