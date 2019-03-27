@@ -1,0 +1,22 @@
+.register-card {
+    max-width: 400px;
+    background: #dce6f7;
+}
+
+ mat-card-content {
+    text-align: center;
+    justify-content: center;
+}
+
+mat-card-title, span {
+    text-align: center;
+}
+
+.register-container {
+    width: 100%;
+}
+
+.register-card {
+    display: table;
+    margin: 0 auto;
+}

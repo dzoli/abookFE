@@ -23,6 +23,8 @@
               "src/PMFIco.ico"
             ],
             "styles": [
+              {
+                "input": "src/my_theme.scss",              },
               "src/styles.css"
             ],
             "scripts": []
