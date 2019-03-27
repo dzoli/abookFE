@@ -1,17 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { Molba1Component } from './molba1/molba1.component';
+import { LoginComponent } from './components/login/login.component';
 
 const routes: Routes = [
-  {
-    path: 'molba1',
-    component: Molba1Component
-  }
-
+    { path: '', redirectTo: '/login', pathMatch: 'full' },
+    { path:'login', component: LoginComponent}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
 })
 export class AppRoutingModule { }

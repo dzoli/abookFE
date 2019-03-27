@@ -19,9 +19,8 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
               "src/assets",
-              "src/molba1.pdf"
+              "src/PMFIco.ico"
             ],
             "styles": [
               "src/styles.css"
@@ -84,7 +83,7 @@
             ],
             "scripts": [],
             "assets": [
-              "src/favicon.ico",
+              "src/PMFIco.ico",
               "src/assets"
             ]
           }

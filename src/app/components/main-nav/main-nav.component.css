@@ -15,3 +15,11 @@
   top: 0;
   z-index: 1;
 }
+
+.title-center {
+  margin: 0 auto;
+}
+
+mat-icon {
+  margin: 7px;
+}

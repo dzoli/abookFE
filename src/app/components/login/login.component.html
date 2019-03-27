@@ -1,0 +1,31 @@
+<!--angular reactive form-->
+<form [formGroup]="form" class="normal-form">
+	<mat-grid-list cols="1" rowHeight="500px">
+		<mat-grid-tile>
+			<div class="controles-container">
+				<input type="hidden" formControlName="$key">
+				<mat-form-field>
+          <input formControlName="username" matInput placeholder="Username*">
+          <mat-error>Ovo polje je obavezno.</mat-error>
+				</mat-form-field>
+				<!-- <mat-form-field>
+          <input formControlName="password" matInput placeholder="Password*">
+          <mat-error *ngIf="form.controls['password'].errors?.minlength">Lozinka mora da sadrži najmanje 8 karaktera.</mat-error>
+          <mat-error *ngIf="form.controls['password'].errors?.required">Ovo polje je obavezno.</mat-error>
+        </mat-form-field> -->
+        <mat-form-field>
+          <input matInput formControlName="password" placeholder="Lozinka*" [type]="hide ? 'password' : 'text'">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="form.controls['password'].errors?.minlength">Lozinka mora da sadrži najmanje 8 karaktera.</mat-error>
+          <mat-error *ngIf="form.controls['password'].errors?.required">Ovo polje je obavezno.</mat-error>
+        </mat-form-field>
+        <div class="button-row">
+          <button mat-raised-button color="primary" (click)="goToMain()" [disabled]="form.invalid" type="submit">Potvrdi</button>
+          <button mat-raised-button color="secondary" (click)="onClear()" type="reset">Resetuj</button>
+        </div>
+			</div>
+		</mat-grid-tile>
+	</mat-grid-list>
+</form>
