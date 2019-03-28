@@ -3,7 +3,7 @@
 }
 
 .sidenav {
-  width: 250px;
+  width: 20%;
 }
 
 .sidenav .mat-toolbar {
@@ -18,6 +18,8 @@
 
 .title-center {
   margin: 0 auto;
+  font-weight: 600;
+  font-size: large;
 }
 
 mat-icon {

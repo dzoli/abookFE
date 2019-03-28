@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, Observer } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, RouterLinkWithHref } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -57,5 +57,24 @@ export class UserService {
         });
     }
 
+    logout() {
+        this.isAuthenticated = false;
+        this.loginData = {};
+        console.log('user is logged out: ', this.isAuthenticated, this.loginData);
+        this.router.navigateByUrl('login');
+    }
+
+    currentProfile(): Observable<any> {
+        const currProfilUrl = this.baseUrl + 'profiles/' + this.loginData.user.id + "/"
+        return new Observable((o: any) => {
+            this.http.get(currProfilUrl, { headers: this.httpHeaders })
+                .subscribe((res) => {
+                    o.next(res);
+                    return o.complete();
+                }, (err) => {
+                    return o.error(err);
+                });
+        })
+    }
 
 }

@@ -18,9 +18,15 @@ export class MainNavComponent {
     );
 
   constructor(private breakpointObserver: BreakpointObserver,
-              private userService: UserService) {
-                console.log(userService.isAuthenticated);
-                console.log(userService.loginData);
-              }
+    private userService: UserService) {
+    console.log(userService.isAuthenticated);
+    console.log(userService.loginData);
+  }
+
+  logOut() {
+    console.log(' -main logout - ', this.userService.loginData);
+    this.userService.logout();
+  }
+
 
 }

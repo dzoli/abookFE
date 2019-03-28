@@ -4,11 +4,12 @@ import { LoginComponent } from './components/login/login.component';
 import { MainNavComponent } from './components/main-nav/main-nav.component';
 import { AuthGuard } from './shared/guards/auth.guard';
 import { RegisterComponent } from './components/register/register.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 const routes: Routes = [
     { 
       path: '', 
-      redirectTo: '/login', 
+      redirectTo: '/login',  
       pathMatch: 'full' 
     },
     { 
@@ -18,7 +19,13 @@ const routes: Routes = [
     { 
         path: 'home', 
         canActivate: [AuthGuard],
-        component: MainNavComponent 
+        component: MainNavComponent,
+        children: [
+            {
+                path: 'profile',
+                component: ProfileComponent
+            }
+        ]
     },
     {
         path: 'register',

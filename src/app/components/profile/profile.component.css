@@ -1,0 +1,24 @@
+.container {
+    width: 60%;
+    margin: auto;
+    
+}
+
+.wrapper {
+    padding: 50px;
+}
+  
+.image--cover {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 10px;
+
+    object-fit: cover;
+    object-position: center right;
+}
+
+mat-icon {
+    width: 150px;
+    height: 150px;
+}

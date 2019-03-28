@@ -2,8 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from 'src/app/shared/user/user.service';
-import { Router } from '@angular/router';
-import { initNodeFlags } from '@angular/core/src/render3/instructions';
+
 
 @Component({
     selector: 'app-login',
@@ -33,7 +32,6 @@ export class LoginComponent implements OnInit {
     onClear() {
         this.form.reset();
         this.initFormGroup();
-        // this.loading = false;
     }
 
     goToMain() {

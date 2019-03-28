@@ -1,0 +1,34 @@
+<div class="container" layout="column" layout-align="space-between center">
+
+
+    <mat-grid-list cols="3" rowHeight="2:1">
+        <mat-grid-tile style="background: red">
+            <div class="wrapper">
+                <img *ngIf="userProfile.profile_img != null" src="{{userProfile.profile_img}}" class="image--cover">
+                <mat-icon *ngIf="userProfile.profile_img == null" style="font-size:150px;">account_circle</mat-icon>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="2" style="background: green">
+            <form [formGroup]="form" class="normal-form">
+                 <!--first name-->
+                 <mat-form-field autofocus>
+                        <input formControlName="first_name" matInput placeholder="Ime*" #firstField>
+                        <mat-error>Ovo polje je obavezno.</mat-error>
+                    </mat-form-field>
+                    
+                    <!--last name-->
+                    <mat-form-field>
+                        <input formControlName="last_name" matInput placeholder="Prezime*">
+                        <mat-error>Ovo polje je obavezno.</mat-error>
+                    </mat-form-field>
+                    
+                    <!--username-->
+                    <mat-form-field>
+                        <input formControlName="username" matInput placeholder="Korisničko ime*">
+                        <mat-error *ngIf="form.controls['username'].errors?.required">Ovo polje je obavezno.</mat-error>
+                        <mat-error *ngIf="form.controls['username'].errors?.email">Email adresa nije ispravna.</mat-error>
+                    </mat-form-field>
+            </form>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>
