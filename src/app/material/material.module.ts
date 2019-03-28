@@ -26,6 +26,6 @@ import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material';
     Material.MatInputModule,
     Material.MatFormFieldModule,
   ],
-  providers: [{provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 400}}]
+  providers: [{provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 1000}}]
 })
 export class MaterialModule { }

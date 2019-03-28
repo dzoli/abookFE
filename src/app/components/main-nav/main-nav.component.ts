@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { UserService } from 'src/app/shared/user/user.service';
 
 @Component({
   selector: 'app-main-nav',
@@ -16,6 +17,10 @@ export class MainNavComponent {
       map(result => true)
     );
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(private breakpointObserver: BreakpointObserver,
+              private userService: UserService) {
+                console.log(userService.isAuthenticated);
+                console.log(userService.loginData);
+              }
 
 }

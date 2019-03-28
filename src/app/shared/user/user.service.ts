@@ -11,19 +11,50 @@ import { environment } from 'src/environments/environment';
 export class UserService {
 
     public test: string;
-    private httpHeaders = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
+    private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
     private baseUrl: string = environment.apiUrl;
 
-    constructor(private router: Router, private http: HttpClient) {
-        this.test = 'aaa';
+    public loginData: any;
+    public isAuthenticated: boolean;
 
-
+    constructor(private http: HttpClient, private router: Router) {
+        this.isAuthenticated = false;
     }
 
-    loginUser(userData: any):Observable<any> {
+    loginUser(userData: any): Observable<any> {
         const authUrl = this.baseUrl + 'authenticate/';
-        console.log(userData);
-        return this.http.post(authUrl, userData, {headers: this.httpHeaders});
+        return new Observable((o) => {
+            this.http.post(authUrl, userData, { headers: this.httpHeaders })
+                .subscribe((res) => {
+                    this.loginData = res;
+                    this.isAuthenticated = true;
+                    this.router.navigateByUrl('home');
+                    o.next(res);
+                    return o.complete();
+                }, (err) => {
+                    return o.error(err);
+                })
+        });
+    }
+
+    register(userData: any): Observable<any> {
+        const registerUrl = this.baseUrl + 'users/';
+        console.log('--register--', userData);
+        return new Observable((o) => {
+            this.http.post(registerUrl, {
+                'first_name': userData.first_name,
+                'last_name': userData.last_name,
+                'password': userData.password,
+                'username': userData.username,
+                'email': userData.username     // email is like username
+            }, { headers: this.httpHeaders })
+                .subscribe((res) => {
+                    o.next(res);
+                    this.router.navigateByUrl('login');
+                    return o.complete();
+                },
+                    (err) => o.error(err))
+        });
     }
 
 

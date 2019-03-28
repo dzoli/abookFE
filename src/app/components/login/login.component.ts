@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from 'src/app/shared/user/user.service';
+import { Router } from '@angular/router';
+import { initNodeFlags } from '@angular/core/src/render3/instructions';
 
 @Component({
     selector: 'app-login',
@@ -10,39 +12,37 @@ import { UserService } from 'src/app/shared/user/user.service';
 })
 export class LoginComponent implements OnInit {
 
+    @ViewChild("firstField") firstName: ElementRef;
     form: FormGroup;
-    hide: boolean;
-    loading: boolean;
+    hidePass: boolean;
 
-    constructor(private snack: MatSnackBar, private userService: UserService) {
-        this.hide = true;
-        this.form = new FormGroup({
-            username: new FormControl('', Validators.required),
-            password: new FormControl('', [Validators.required, Validators.minLength(8)]),
-        });
+    constructor(private snack: MatSnackBar,
+                private userService: UserService) {
+            this.hidePass = true;
+            this.form = new FormGroup({
+                username: new FormControl('', Validators.required),
+                password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+            });
     }
 
     ngOnInit() {
-        this.loading = false;
+        this.firstName.nativeElement.focus();
+        
     }
 
     onClear() {
         this.form.reset();
         this.initFormGroup();
-        this.loading = false;
+        // this.loading = false;
     }
 
     goToMain() {
-        // test 
-        console.log('== form value', this.form.value);
         this.userService.loginUser(this.form.value)
-                .subscribe(res => {
-                        this.loading = false;
-                        console.log(res); 
-                    }, err => {
-                        this.loading = false;
-                        console.log(err);
-                    });
+            .subscribe(res => {
+            }, err => {
+                console.log(" = LoginComponent = ", err);
+                this.snack.open("Korisničko ime ili lozinka nisu ispravni.");
+            });
     }
 
     initFormGroup() {
