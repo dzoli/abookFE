@@ -7,20 +7,20 @@
                     <input formControlName="first_name" matInput placeholder="Ime*" #firstField>
                     <mat-error>Ovo polje je obavezno.</mat-error>
                 </mat-form-field>
-                
+
                 <!--last name-->
                 <mat-form-field>
                     <input formControlName="last_name" matInput placeholder="Prezime*">
                     <mat-error>Ovo polje je obavezno.</mat-error>
                 </mat-form-field>
-                
+
                 <!--username-->
                 <mat-form-field>
                     <input formControlName="username" matInput placeholder="Korisničko ime*">
                     <mat-error *ngIf="form.controls['username'].errors?.required">Ovo polje je obavezno.</mat-error>
                     <mat-error *ngIf="form.controls['username'].errors?.email">Email adresa nije ispravna.</mat-error>
                 </mat-form-field>
-                
+
                 <!--password-->
                 <mat-form-field>
                     <input matInput formControlName="password" placeholder="Lozinka*"
