@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { UserService } from 'src/app/shared/user/user.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
     selector: 'app-profile',
@@ -14,32 +15,40 @@ export class ProfileComponent implements OnInit {
     panelOpenState = false;
 
     // preview image
-    public imagePath;
-    imgURL: any;
+    public imagePath: any;
     public message: string;
 
-    preview(files) {
-        if (files.length === 0)
-            return;
+    private selectedFile: File;
 
-        var mimeType = files[0].type;
-        if (mimeType.match(/image\/*/) == null) {
-            this.message = "Tip fajla mora biti slika.";
+    preview(files: any) {
+        if (files.length === 0) {
             return;
         }
 
-        var reader = new FileReader();
+        const mimeType = files[0].type;
+        if (mimeType.match(/image\/*/) == null) {
+            this.message = 'Tip fajla mora biti slika.';
+            return;
+        }
+
+        this.selectedFile = files[0];
+        const reader = new FileReader();
         this.imagePath = files;
         reader.readAsDataURL(files[0]);
         reader.onload = (_event) => {
-            // this.imgURL = reader.result;
             this.userProfile.profile_img = reader.result;
+            this.form.patchValue({
+                profile_img: reader.result
+            });
             console.log('--userprof==', this.userProfile);
+
+             // need to run CD since file load runs outside of zone
+             this.cd.markForCheck();
         }
 
     }
 
-    constructor(private userService: UserService) {
+    constructor(private userService: UserService, private snack: MatSnackBar, private cd: ChangeDetectorRef) {
         this.userProfile = {};
     }
 
@@ -47,26 +56,34 @@ export class ProfileComponent implements OnInit {
         this.userService.currentProfile()
             .subscribe((res) => {
                 this.userProfile = res;
-                console.log(' -- user profile --', this.userProfile);
                 this.initFormValues();
             });
         this.form = new FormGroup({
             first_name: new FormControl('', Validators.required),
             last_name: new FormControl('', Validators.required),
-            username: new FormControl('', [Validators.required, Validators.email]),
+            username: new FormControl('', [Validators.required]),
             address: new FormControl(),
             workplace: new FormControl(),
             office: new FormControl(),
-            phone: new FormControl()
+            phone: new FormControl(),
+            department: new FormControl(),
+            personal_web_site: new FormControl(),
+            profile_img: new FormControl()
         });
     }
 
-    onFileSelected(event) {
+    onFileSelected(event: any) {
         console.log(event);
     }
 
     updateProfile() {
-        console.log(" -- update profile -- ", this.form.value);
+        this.userService.updateProfile(this.userProfile, this.form.value, this.selectedFile)
+            .subscribe((res) => {
+                this.snack.open('Podaci uspešno snimljeni.');
+            }, (err) => {
+                console.log('--error prof. update --', err);
+                this.snack.open('Podaci nisu uspešno snimljeni.');
+            });
     }
 
     initFormValues() {
@@ -77,7 +94,10 @@ export class ProfileComponent implements OnInit {
             address: this.userProfile.address,
             workplace: this.userProfile.workplace,
             office: this.userProfile.office,
-            phone: this.userProfile.phone
+            phone: this.userProfile.phone,
+            department: this.userProfile.department,
+            personal_web_site: this.userProfile.personal_web_site,
+            profile_img: null
         });
     }
 
@@ -94,7 +114,10 @@ export class ProfileComponent implements OnInit {
             address: '',
             workplace: '',
             office: '',
-            phone: ''
+            phone: '',
+            department: '',
+            personal_web_site: '',
+            profile_img: null
         });
     }
 

@@ -1,82 +1,100 @@
 <form [formGroup]="form" class="normal-form">
     <div class="container" layout="column" layout-align="space-between center">
-        <mat-grid-list cols="3" rowHeight="1:1">
-            <mat-grid-tile>
-                <div class="wrapper">
-                    <img *ngIf="userProfile.profile_img != null" src="{{userProfile.profile_img}}" class="image--cover">
-                    <img *ngIf="userProfile.profile_img == null" src="assets/profile-img.png" class="image--cover">
-                    <mat-grid-tile-footer style="background: inherit">
-                        <button mat-icon-button  (click)="fileInput.click()">
-                            <mat-icon style="-webkit-text-fill-color:gray">add_a_photo</mat-icon>
-                        </button>
-                        <!-- <input hidden type="file" accept="image/*" #fileInput (change)="onFileSelected($event)"> -->
-                        <input hidden type="file" accept="image/*" #fileInput (change)="preview(fileInput.files)">
-                    </mat-grid-tile-footer>
+        <div class="body">
+            <mat-grid-list cols="3" rowHeight="1:1">
+                <mat-grid-tile>
+                    <div class="wrapper">
+                        <img *ngIf="userProfile.profile_img != null" src="{{userProfile.profile_img}}"
+                            class="image--cover">
+                        <img *ngIf="userProfile.profile_img == null" src="assets/profile-img.png" class="image--cover">
+                        <mat-grid-tile-footer style="background: inherit">
+                            <button mat-icon-button (click)="fileInput.click()">
+                                <mat-icon style="-webkit-text-fill-color:gray">add_a_photo</mat-icon>
+                            </button>
+                            <!-- <input hidden type="file" accept="image/*" #fileInput (change)="onFileSelected($event)"> -->
+                            <input hidden type="file" accept="image/*" #fileInput (change)="preview(fileInput.files)">
+                        </mat-grid-tile-footer>
+                    </div>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="2">
+                    <mat-grid-list cols="1" rowHeight="70px" class="controles-container">
+
+                        <!--first name-->
+                        <mat-grid-tile>
+                            <mat-form-field autofocus>
+                                <input formControlName="first_name" matInput placeholder="Ime*" #firstField>
+                                <mat-error>Ovo polje je obavezno.</mat-error>
+                            </mat-form-field>
+                        </mat-grid-tile>
+
+                        <!--last name-->
+                        <mat-grid-tile>
+                            <mat-form-field>
+                                <input formControlName="last_name" matInput placeholder="Prezime*">
+                                <mat-error>Ovo polje je obavezno.</mat-error>
+                            </mat-form-field>
+                        </mat-grid-tile>
+
+                        <!--username-->
+                        <mat-grid-tile>
+                            <mat-form-field>
+                                <input formControlName="username" matInput placeholder="Korisničko ime*">
+                                <mat-error *ngIf="form.controls['username'].errors?.required">Ovo polje je obavezno.
+                                </mat-error>
+                                <mat-error *ngIf="form.controls['username'].errors?.email">Email adresa nije ispravna.
+                                </mat-error>
+                            </mat-form-field>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+                </mat-grid-tile>
+            </mat-grid-list>
+            <mat-grid-list cols="1" rowHeight="70px" gutterSize="15px">
+                <div class="controles-container">
+                    <!--address-->
+                    <mat-grid-tile class=".mat-grid-tile">
+                        <mat-form-field>
+                            <input formControlName="address" matInput placeholder="Adresa">
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+                    <!--workplace-->
+                    <mat-grid-tile class=".mat-grid-tile">
+                        <mat-form-field>
+                            <input formControlName="workplace" matInput placeholder="Radmo mesto/zvanje">
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+                    <!--office-->
+                    <mat-grid-tile class=".mat-grid-tile">
+                        <mat-form-field>
+                            <input formControlName="office" matInput placeholder="Kancelarija">
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+                    <!--department-->
+                    <mat-grid-tile class=".mat-grid-tile">
+                        <mat-form-field>
+                            <input formControlName="department" matInput placeholder="Departman">
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+                    <!--web site-->
+                    <mat-grid-tile class=".mat-grid-tile">
+                        <mat-form-field>
+                            <input formControlName="personal_web_site" matInput placeholder="Web sajt">
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+                    <!--phone-->
+                    <mat-grid-tile class=".mat-grid-tile">
+                        <mat-form-field>
+                            <input formControlName="phone" matInput placeholder="Telefon">
+                        </mat-form-field>
+                    </mat-grid-tile>
                 </div>
-            </mat-grid-tile>
-            <mat-grid-tile [colspan]="2">
-                <mat-grid-list cols="1" rowHeight="70px" class="controles-container">
-                    <!--first name-->
-                    <mat-grid-tile>
-                        <mat-form-field autofocus>
-                            <input formControlName="first_name" matInput placeholder="Ime*" #firstField>
-                            <mat-error>Ovo polje je obavezno.</mat-error>
-                        </mat-form-field>
-                    </mat-grid-tile>
-
-                    <!--last name-->
-                    <mat-grid-tile>
-                        <mat-form-field>
-                            <input formControlName="last_name" matInput placeholder="Prezime*">
-                            <mat-error>Ovo polje je obavezno.</mat-error>
-                        </mat-form-field>
-                    </mat-grid-tile>
-
-                    <!--username-->
-                    <mat-grid-tile>
-                        <mat-form-field>
-                            <input formControlName="username" matInput placeholder="Korisničko ime*">
-                            <mat-error *ngIf="form.controls['username'].errors?.required">Ovo polje je obavezno.
-                            </mat-error>
-                            <mat-error *ngIf="form.controls['username'].errors?.email">Email adresa nije ispravna.
-                            </mat-error>
-                        </mat-form-field>
-                    </mat-grid-tile>
-                </mat-grid-list>
-            </mat-grid-tile>
-        </mat-grid-list>
-        <mat-grid-list cols="1" rowHeight="70px" gutterSize="15px">
-            <div class="controles-container">
-                <!--address-->
-                <mat-grid-tile class=".mat-grid-tile">
-                    <mat-form-field>
-                        <input formControlName="address" matInput placeholder="Adresa">
-                    </mat-form-field>
-                </mat-grid-tile>
-
-                <!--workplace-->
-                <mat-grid-tile class=".mat-grid-tile">
-                    <mat-form-field>
-                        <input formControlName="workplace" matInput placeholder="Radmo mesto/zvanje">
-                    </mat-form-field>
-                </mat-grid-tile>
-
-                <!--office-->
-                <mat-grid-tile class=".mat-grid-tile">
-                    <mat-form-field>
-                        <input formControlName="office" matInput placeholder="Kancelarija">
-                    </mat-form-field>
-                </mat-grid-tile>
-
-                <!--phone-->
-                <mat-grid-tile class=".mat-grid-tile">
-                    <mat-form-field>
-                        <input formControlName="phone" matInput placeholder="Telefon">
-                    </mat-form-field>
-                </mat-grid-tile>
-            </div>
-        </mat-grid-list>
-
+            </mat-grid-list>
+        </div>
+        
         <mat-grid-list cols="1" rowHeight="40px" class="submit-form">
             <mat-grid-tile>
                 <button mat-raised-button class="fin-btn" (click)="updateProfile()">

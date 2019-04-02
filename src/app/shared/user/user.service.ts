@@ -12,8 +12,9 @@ export class UserService {
 
     public test: string;
     private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
-    private baseUrl: string = environment.apiUrl;
 
+
+    private baseUrl: string = environment.apiUrl;
     public loginData: any;
     public isAuthenticated: boolean;
 
@@ -28,7 +29,7 @@ export class UserService {
                 .subscribe((res) => {
                     this.loginData = res;
                     this.isAuthenticated = true;
-                    this.router.navigateByUrl('home');
+                    this.router.navigateByUrl('contacts/home');
                     o.next(res);
                     return o.complete();
                 }, (err) => {
@@ -53,7 +54,7 @@ export class UserService {
                     this.router.navigateByUrl('login');
                     return o.complete();
                 },
-                    (err) => o.error(err))
+                    (err) => o.error(err));
         });
     }
 
@@ -65,9 +66,9 @@ export class UserService {
     }
 
     currentProfile(): Observable<any> {
-        const currProfilUrl = this.baseUrl + 'profiles/' + this.loginData.user.id + "/"
+        const url = this.baseUrl + 'profiles/' + this.loginData.user.id + '/';
         return new Observable((o: any) => {
-            this.http.get(currProfilUrl, { headers: this.httpHeaders })
+            this.http.get(url, { headers: this.httpHeaders })
                 .subscribe((res) => {
                     o.next(res);
                     return o.complete();
@@ -77,4 +78,35 @@ export class UserService {
         })
     }
 
+    updateProfile(profile: any, formData: any, selectedFile: File): Observable<any> {
+        const url = this.baseUrl + 'profiles/' + profile.id + '/';
+
+        let uploadData: FormData = new FormData();
+
+        uploadData.append('id', String(profile));
+        uploadData.append('department', formData.department);
+        uploadData.append('workplace', formData.workplace);
+        uploadData.append('office', formData.office);
+        uploadData.append('phone', formData.phone);
+        uploadData.append('addres', formData.addres);
+        uploadData.append('personal_web_site', formData.personal_web_site);
+        uploadData.append('user.id', this.loginData.user.id);
+        uploadData.append('user.username', formData.username);
+        uploadData.append('user.first_name', formData.first_name);
+        uploadData.append('user.last_name', formData.last_name);
+        uploadData.append('profile_img', selectedFile);
+        
+
+        return new Observable((o: any) => {
+            this.http.put(url,
+                uploadData
+                // , { headers: this.httpHeaders }
+            ).subscribe((res) => {
+                o.next(res);
+                return o.complete();
+            }, (err) => {
+                o.error(err);
+            });
+        });
+    }
 }

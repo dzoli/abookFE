@@ -14,7 +14,8 @@ import { LoginComponent } from './components/login/login.component';
 import { UserService } from './shared/user/user.service';
 import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
-
+import { HomeComponent } from './components/home/home.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
     declarations: [
@@ -22,7 +23,8 @@ import { ProfileComponent } from './components/profile/profile.component';
         MainNavComponent,
         LoginComponent,
         RegisterComponent,
-        ProfileComponent
+        ProfileComponent,
+        HomeComponent
     ],
     imports: [
         BrowserModule,
@@ -31,12 +33,8 @@ import { ProfileComponent } from './components/profile/profile.component';
         MaterialModule,
         ReactiveFormsModule,
         LayoutModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatSidenavModule,
-        MatIconModule,
-        MatListModule,
-        HttpClientModule
+        HttpClientModule,
+        FlexLayoutModule
     ],
     providers: [UserService],
     bootstrap: [AppComponent]

@@ -1,0 +1,64 @@
+<mat-card class="example-card">
+    <mat-card-title>{{userProfile.workplace}}</mat-card-title>
+    <mat-card-title>{{userProfile.user.first_name}} {{userProfile.user.last_name}}</mat-card-title>
+    <mat-card-content>
+        <div gdAreas="wrapper content" gdGap="0px" gdRows="auto auto">
+            <div class="wrapper" fxFlex="0 1 calc(33.3%)">
+                <img *ngIf="userProfile.profile_img != null" src="{{userProfile.profile_img}}" class="image--cover">
+                <img *ngIf="userProfile.profile_img == null" src="assets/profile-img.png" class="image--cover">
+            </div>
+            <div class="content" fxFlex="0 1 calc(66.6%)">
+                <p>Departman: {{userProfile.department}}</p>
+                <p>Kancelarija: {{userProfile.office}}</p>
+                <p>Telefon: {{userProfile.phone}}</p>
+                <p>Lični sajt: {{userProfile.personal_web_site}}</p>
+            </div>
+        </div>
+    </mat-card-content>
+    <mat-card-footer>
+        <mat-accordion class="accordion" multi="true">
+            <!-- panel 1 -->
+            <mat-expansion-panel [expanded]="false">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Projekti
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Prikaži projekte
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <p>Projekat </p>
+                <p>Projekat </p>
+                <p>Projekat </p>
+                <p>Projekat </p>
+                <p>Projekat </p>
+                <p>Projekat </p>
+                <p>Projekat </p>
+                <p>Projekat </p>
+                <p>Projekat </p>
+            </mat-expansion-panel>
+
+            <!-- panel 2 -->
+            <mat-expansion-panel [expanded]="false">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Istraživanke grupe
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Prikaži istraživačke grupe
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <p>Grupa </p>
+                <p>Grupa </p>
+                <p>Grupa </p>
+                <p>Grupa </p>
+                <p>Grupa </p>
+                <p>Grupa </p>
+                <p>Grupa </p>
+                <p>Grupa </p>
+                <p>Grupa </p>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </mat-card-footer>
+</mat-card>
