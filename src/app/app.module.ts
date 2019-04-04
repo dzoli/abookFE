@@ -16,6 +16,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { HomeComponent } from './components/home/home.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { AddProjectComponent } from './components/add-project/add-project.component';
 
 @NgModule({
     declarations: [
@@ -24,7 +25,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
         LoginComponent,
         RegisterComponent,
         ProfileComponent,
-        HomeComponent
+        HomeComponent,
+        AddProjectComponent
     ],
     imports: [
         BrowserModule,
@@ -37,6 +39,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
         FlexLayoutModule
     ],
     providers: [UserService],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    entryComponents: [
+        AddProjectComponent
+    ]
 })
 export class AppModule { }

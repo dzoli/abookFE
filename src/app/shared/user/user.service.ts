@@ -4,16 +4,14 @@ import { Observable, of, Observer } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { Router, RouterLinkWithHref } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { Project } from '../../models/project.model';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserService {
 
-    public test: string;
     private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
-
-
     private baseUrl: string = environment.apiUrl;
     public loginData: any;
     public isAuthenticated: boolean;
@@ -80,9 +78,7 @@ export class UserService {
 
     updateProfile(profile: any, formData: any, selectedFile: File): Observable<any> {
         const url = this.baseUrl + 'profiles/' + profile.id + '/';
-
         let uploadData: FormData = new FormData();
-
         uploadData.append('id', String(profile));
         uploadData.append('department', formData.department);
         uploadData.append('workplace', formData.workplace);
@@ -95,13 +91,9 @@ export class UserService {
         uploadData.append('user.first_name', formData.first_name);
         uploadData.append('user.last_name', formData.last_name);
         uploadData.append('profile_img', selectedFile);
-        
 
         return new Observable((o: any) => {
-            this.http.put(url,
-                uploadData
-                // , { headers: this.httpHeaders }
-            ).subscribe((res) => {
+            this.http.put(url, uploadData).subscribe((res) => {
                 o.next(res);
                 return o.complete();
             }, (err) => {
@@ -109,4 +101,15 @@ export class UserService {
             });
         });
     }
+
+    userProjects(): Observable<Project[]> {
+        const url = this.baseUrl + 'projects/?id=' + this.loginData.user.id;
+        return this.http.get<Project[]>(url, { headers: this.httpHeaders });
+    }
+
+    allPorjects(): Observable<Project[]> {
+        const url = this.baseUrl + 'projects/';
+        return this.http.get<Project[]>(url, { headers: this.httpHeaders });
+    }
+
 }

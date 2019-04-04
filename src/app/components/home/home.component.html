@@ -2,23 +2,32 @@
     <mat-card-title>{{userProfile.workplace}}</mat-card-title>
     <mat-card-title>{{userProfile.user.first_name}} {{userProfile.user.last_name}}</mat-card-title>
     <mat-card-content>
-        <div gdAreas="wrapper content" gdGap="0px" gdRows="auto auto">
-            <div class="wrapper" fxFlex="0 1 calc(33.3%)">
+        <div class="container" fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutWrap fxLayoutGap="0.5%">
+            <div class="wrapper" fxFlex="30%">
                 <img *ngIf="userProfile.profile_img != null" src="{{userProfile.profile_img}}" class="image--cover">
                 <img *ngIf="userProfile.profile_img == null" src="assets/profile-img.png" class="image--cover">
             </div>
-            <div class="content" fxFlex="0 1 calc(66.6%)">
-                <p>Departman: {{userProfile.department}}</p>
-                <p>Kancelarija: {{userProfile.office}}</p>
-                <p>Telefon: {{userProfile.phone}}</p>
-                <p>Lični sajt: {{userProfile.personal_web_site}}</p>
+            <div class="content" fxFlex="70%">
+                <div>
+                    <span>Departman:&nbsp;</span> {{userProfile.department}} <br>
+                </div>
+                <div>
+                    <span>Kancelarija:&nbsp;</span> {{userProfile.office}}<br>
+                </div>
+                <div>
+                    <span>Telefon:&nbsp;</span> {{userProfile.phone}}<br>
+                </div>
+                <div>
+                    <span>Lični sajt:&nbsp;&nbsp;</span><a
+                        href='{{userProfile.personal_web_site}}'>{{userProfile.personal_web_site}}</a><br>
+                </div>
             </div>
         </div>
     </mat-card-content>
     <mat-card-footer>
         <mat-accordion class="accordion" multi="true">
             <!-- panel 1 -->
-            <mat-expansion-panel [expanded]="false">
+            <mat-expansion-panel #projectsPanel>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         Projekti
@@ -27,19 +36,54 @@
                         Prikaži projekte
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <p>Projekat </p>
-                <p>Projekat </p>
-                <p>Projekat </p>
-                <p>Projekat </p>
-                <p>Projekat </p>
-                <p>Projekat </p>
-                <p>Projekat </p>
-                <p>Projekat </p>
-                <p>Projekat </p>
+
+                <mat-table [dataSource]="projectsDs" class="mat-elevation-z8" matSort>
+                    <!--Title-->
+                    <ng-container matColumnDef="title">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="title"> Naslov </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
+                    </ng-container>
+
+                    <!--Label-->
+                    <ng-container matColumnDef="label">
+                        <mat-header-cell *matHeaderCellDef> Oznaka </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.label}} </mat-cell>
+                    </ng-container>
+
+                    <!--Pmf status-->
+                    <ng-container matColumnDef="pmf_status">
+                        <mat-header-cell *matHeaderCellDef> Pmf status </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.pmf_status}} </mat-cell>
+                    </ng-container>
+
+                    <!--Project manager-->
+                    <ng-container matColumnDef="project_manager">
+                        <mat-header-cell *matHeaderCellDef> Rukovodilac projekta </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.project_manager}} </mat-cell>
+                    </ng-container>
+
+                    <!--Start year-->
+                    <ng-container matColumnDef="start_year">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="start_year"> God. početka </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.start_year}} </mat-cell>
+                    </ng-container>
+
+                    <!--Duration-->
+                    <ng-container matColumnDef="duration">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="duration"> Trajanje </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.duration}} </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="project_cols"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: project_cols;"></mat-row>
+                </mat-table>
+                <mat-action-row>
+                    <button mat-button color="primary" (click)="showAddProjectDialog()">Dodaj projekat</button>
+                </mat-action-row>
             </mat-expansion-panel>
 
             <!-- panel 2 -->
-            <mat-expansion-panel [expanded]="false">
+            <mat-expansion-panel #groupsPanel>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         Istraživanke grupe
@@ -48,16 +92,12 @@
                         Prikaži istraživačke grupe
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-
                 <p>Grupa </p>
                 <p>Grupa </p>
                 <p>Grupa </p>
-                <p>Grupa </p>
-                <p>Grupa </p>
-                <p>Grupa </p>
-                <p>Grupa </p>
-                <p>Grupa </p>
-                <p>Grupa </p>
+                <mat-action-row>
+                        <button mat-button color="primary" (click)="showAddProjectDialog()">Dodaj istraživačku grupu</button>
+                    </mat-action-row>
             </mat-expansion-panel>
         </mat-accordion>
     </mat-card-footer>

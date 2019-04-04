@@ -12,21 +12,17 @@
 
                 <!--password-->
                 <mat-form-field>
-                    <input matInput formControlName="password" placeholder="Lozinka*"
-                        [type]="hidePass ? 'password' : 'text'">
-                    <button mat-icon-button matSuffix (click)="hidePass = !hidePass" [attr.aria-label]="'Hide password'"
-                        [attr.aria-pressed]="hidePass">
+                    <input matInput formControlName="password" placeholder="Lozinka*" [type]="hidePass ? 'password' : 'text'">
+                    <button mat-icon-button matSuffix (click)="hidePass = !hidePass" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePass">
                         <mat-icon>{{hidePass ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
-                    <mat-error *ngIf="form.controls['password'].errors?.minlength">Lozinka mora da sadrži najmanje 8
-                        karaktera.</mat-error>
+                    <mat-error *ngIf="form.controls['password'].errors?.minlength">Lozinka mora da sadrži najmanje 8 karaktera.</mat-error>
                     <mat-error *ngIf="form.controls['password'].errors?.required">Ovo polje je obavezno.</mat-error>
                 </mat-form-field>
 
                 <!--submit-->
                 <div class="button-row">
-                    <button mat-raised-button color="m-primary" (click)="goToMain()" [disabled]="form.invalid"
-                        type="submit">Potvrdi</button>
+                    <button mat-raised-button color="m-primary" (click)="goToMain()" [disabled]="!form.valid" type="submit">Potvrdi</button>
                     <button mat-raised-button color="secondary" (click)="onClear()" type="reset">Resetuj</button>
                 </div>
             </div>

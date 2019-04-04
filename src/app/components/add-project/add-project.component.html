@@ -1,0 +1,40 @@
+<mat-table [dataSource]="allProjectsDs" class="mat-elevation-z8" matSort>
+    <!--Title-->
+    <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="title"> Naslov </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
+    </ng-container>
+
+    <!--Label-->
+    <ng-container matColumnDef="label">
+        <mat-header-cell *matHeaderCellDef> Oznaka </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.label}} </mat-cell>
+    </ng-container>
+
+    <!--Pmf status-->
+    <ng-container matColumnDef="pmf_status">
+        <mat-header-cell *matHeaderCellDef> Pmf status </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.pmf_status}} </mat-cell>
+    </ng-container>
+
+    <!--Project manager-->
+    <ng-container matColumnDef="project_manager">
+        <mat-header-cell *matHeaderCellDef> Rukovodilac projekta </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.project_manager}} </mat-cell>
+    </ng-container>
+
+    <!--Start year-->
+    <ng-container matColumnDef="start_year">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="start_year"> God. početka </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.start_year}} </mat-cell>
+    </ng-container>
+
+    <!--Duration-->
+    <ng-container matColumnDef="duration">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="duration"> Trajanje </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.duration}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="project_cols"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: project_cols;"></mat-row>
+</mat-table>

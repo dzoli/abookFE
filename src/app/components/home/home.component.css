@@ -1,36 +1,31 @@
-/* prifile image container */
-.wrapper {
-    padding: 10px;
-    width: 300px;
-}
-/* prifile image */
-.image--cover {
-    background: green;
-    width: 210px;
-    height: 210px;
-    border-radius: 50%;
-    margin: 0px;
-    object-fit: cover;
-    object-position: center right;
-}
-
 .example-card{
-    width:60%; 
-    min-height: 80%; 
-    position: relative; 
+    width:60%;
+    min-height: 60%;
+    position: relative;
     margin: auto;
     background: #ededed;
+}
+
+/* prifile image */
+.image--cover {
+  background: gray;
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  margin: 0px;
+  object-fit: cover;
+  object-position: center right;
 }
 
 mat-card-title {
     text-align: center;
 }
 
-mat-card-footer{
-    position: relative;;
-   bottom:0;
-   width:90%;
-   height: 50%;
+mat-card-footer {
+   position: relative;
+   bottom:10px;
+   width:98%;
+   height: 20%;
    margin: auto;
 }
 
@@ -40,4 +35,22 @@ mat-card-content {
 
 mat-expansion-panel {
     margin: 4px;
+}
+
+/* Profile details text */
+.content{
+    font-size: 19px;
+}
+
+.content div {
+    margin: 12px;
+}
+
+.content div span {
+    font-weight: bold;
+}
+
+mat-table  {
+    width: 95%;
+    margin: 20px auto 25px auto;
 }

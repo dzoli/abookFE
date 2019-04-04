@@ -23,17 +23,17 @@ const routes: Routes = [
     },
     { 
         path: 'contacts', 
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
         component: MainNavComponent,
         children: [
             {
                 path: 'profile',
-                // canActivate: [AuthGuard],
+                canActivate: [AuthGuard],
                 component: ProfileComponent
             },
             {
                 path: 'home',
-                // canActivate: [AuthGuard],
+                canActivate: [AuthGuard],
                 component: HomeComponent
             }
         ]
