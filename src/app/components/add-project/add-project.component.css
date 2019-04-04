@@ -1,0 +1,14 @@
+mat-toolbar {
+  width: 90%;
+  margin: 10px auto 20px auto;
+}
+
+mat-form-field {
+  width: 80%;
+  padding: 0px;
+  margin-bottom: -15px;
+}
+/*
+mat-icon {
+  font-size: 26px;
+} */

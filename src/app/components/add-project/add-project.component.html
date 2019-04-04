@@ -1,3 +1,10 @@
+<mat-toolbar>
+  <mat-icon style="font-size: 34px; margin: 15px;">search</mat-icon>
+    <mat-form-field [floatLabel]="'never'" [hideRequiredMarker]="true">
+      <input matInput placeholder="Pretraživanje..." (keyup)="applyFilter($event.target.value)">
+    </mat-form-field>
+</mat-toolbar>
+
 <mat-table [dataSource]="allProjectsDs" class="mat-elevation-z8" matSort>
     <!--Title-->
     <ng-container matColumnDef="title">

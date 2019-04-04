@@ -36,7 +36,7 @@ import { AddProjectComponent } from './components/add-project/add-project.compon
         ReactiveFormsModule,
         LayoutModule,
         HttpClientModule,
-        FlexLayoutModule
+        FlexLayoutModule,
     ],
     providers: [UserService],
     bootstrap: [AppComponent],

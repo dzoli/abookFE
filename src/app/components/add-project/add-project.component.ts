@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService } from 'src/app/shared/user/user.service';
 import { MatTab, MatTableDataSource, MatSort } from '@angular/material';
+import { FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'app-add-project',
@@ -9,6 +10,7 @@ import { MatTab, MatTableDataSource, MatSort } from '@angular/material';
 })
 export class AddProjectComponent implements OnInit {
 
+    form: FormGroup;
     allProjectsDs;
     project_cols = ['title', 'label', 'pmf_status', 'project_manager', 'start_year', 'duration'];
     @ViewChild(MatSort) sort: MatSort;
@@ -26,4 +28,8 @@ export class AddProjectComponent implements OnInit {
                 });
     }
 
+    applyFilter(txtFilter) {
+      console.log(txtFilter);
+      this.allProjectsDs.filter = txtFilter.trim().toLowerCase();
+    }
 }
