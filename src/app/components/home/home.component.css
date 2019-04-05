@@ -54,3 +54,8 @@ mat-table  {
     width: 95%;
     margin: 20px auto 25px auto;
 }
+
+mat-spinner {
+    margin: auto;
+    margin-top: 15%;
+}

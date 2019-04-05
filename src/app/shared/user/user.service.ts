@@ -5,6 +5,9 @@ import { HttpHeaders } from '@angular/common/http';
 import { Router, RouterLinkWithHref } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Project } from '../../models/project.model';
+import { ProjectMembership } from 'src/app/models/project-membership.models';
+import { ProjectRole } from 'src/app/models/project-role.models';
+import { Profile } from 'src/app/models/profile.model';
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +18,7 @@ export class UserService {
     private baseUrl: string = environment.apiUrl;
     public loginData: any;
     public isAuthenticated: boolean;
+    public userProfile: Profile
 
     constructor(private http: HttpClient, private router: Router) {
         this.isAuthenticated = false;
@@ -67,7 +71,8 @@ export class UserService {
         const url = this.baseUrl + 'profiles/' + this.loginData.user.id + '/';
         return new Observable((o: any) => {
             this.http.get(url, { headers: this.httpHeaders })
-                .subscribe((res) => {
+                .subscribe((res: Profile) => {
+                    this.userProfile = res;
                     o.next(res);
                     return o.complete();
                 }, (err) => {
@@ -108,8 +113,24 @@ export class UserService {
     }
 
     allPorjects(): Observable<Project[]> {
-        const url = this.baseUrl + 'projects/';
+        const url = this.baseUrl + 'projects/?nid=' + this.loginData.user.id;
         return this.http.get<Project[]>(url, { headers: this.httpHeaders });
     }
 
+    saveProjects(profileId: number, selectedProjects: ProjectRole[]): Observable<any> {
+        const url = this.baseUrl + 'projectmemberships/';
+        let memberships: Array<ProjectMembership> = new Array<ProjectMembership>();
+
+        selectedProjects.forEach(p => {
+            memberships.push(new ProjectMembership(profileId, p.id, p.role));
+        });
+
+        console.log(memberships);
+        return this.http.post(url, memberships, { headers: this.httpHeaders });
+    }
+
+    allRoles(): Observable<any> {
+        const url = this.baseUrl + 'roles/';
+        return this.http.get(url, { headers: this.httpHeaders });
+    }
 }

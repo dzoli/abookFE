@@ -1,9 +1,9 @@
-<mat-card class="example-card">
+<mat-card class="example-card" *ngIf="!loading">
     <mat-card-title>{{userProfile.workplace}}</mat-card-title>
     <mat-card-title>{{userProfile.user.first_name}} {{userProfile.user.last_name}}</mat-card-title>
     <mat-card-content>
         <div class="container" fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutWrap fxLayoutGap="0.5%">
-            <div class="wrapper" fxFlex="30%">
+            <div class="wrapper" fxFlex="30%" *ngIf="!loading">
                 <img *ngIf="userProfile.profile_img != null" src="{{userProfile.profile_img}}" class="image--cover">
                 <img *ngIf="userProfile.profile_img == null" src="assets/profile-img.png" class="image--cover">
             </div>
@@ -102,3 +102,4 @@
         </mat-accordion>
     </mat-card-footer>
 </mat-card>
+<mat-spinner *ngIf="loading" [color]="secondary"></mat-spinner>

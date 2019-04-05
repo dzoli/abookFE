@@ -1,47 +1,88 @@
 <mat-toolbar>
-  <mat-icon style="font-size: 34px; margin: 15px;">search</mat-icon>
+    <mat-icon style="font-size: 34px; margin: 15px;">search</mat-icon>
     <mat-form-field [floatLabel]="'never'" [hideRequiredMarker]="true">
-      <input matInput placeholder="Pretraživanje..." (keyup)="applyFilter($event.target.value)">
+        <input matInput placeholder="Pretraživanje..." (keyup)="applyFilter($event.target.value)">
     </mat-form-field>
 </mat-toolbar>
 
-<mat-table [dataSource]="allProjectsDs" class="mat-elevation-z8" matSort>
-    <!--Title-->
-    <ng-container matColumnDef="title">
-        <mat-header-cell *matHeaderCellDef mat-sort-header="title"> Naslov </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
-    </ng-container>
+<div class="mat-elevation-z8">
+    <mat-table [dataSource]="allProjectsDs" matSort>
+        <!--Title-->
+        <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="title"> Naslov </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
+        </ng-container>
 
-    <!--Label-->
-    <ng-container matColumnDef="label">
-        <mat-header-cell *matHeaderCellDef> Oznaka </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.label}} </mat-cell>
-    </ng-container>
+        <!--Label-->
+        <ng-container matColumnDef="label">
+            <mat-header-cell *matHeaderCellDef> Oznaka </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.label}} </mat-cell>
+        </ng-container>
 
-    <!--Pmf status-->
-    <ng-container matColumnDef="pmf_status">
-        <mat-header-cell *matHeaderCellDef> Pmf status </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.pmf_status}} </mat-cell>
-    </ng-container>
+        <!--Pmf status-->
+        <ng-container matColumnDef="pmf_status">
+            <mat-header-cell *matHeaderCellDef> Pmf status </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.pmf_status}} </mat-cell>
+        </ng-container>
 
-    <!--Project manager-->
-    <ng-container matColumnDef="project_manager">
-        <mat-header-cell *matHeaderCellDef> Rukovodilac projekta </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.project_manager}} </mat-cell>
-    </ng-container>
+        <!--Project manager-->
+        <ng-container matColumnDef="project_manager">
+            <mat-header-cell *matHeaderCellDef> Rukovodilac projekta </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.project_manager}} </mat-cell>
+        </ng-container>
 
-    <!--Start year-->
-    <ng-container matColumnDef="start_year">
-        <mat-header-cell *matHeaderCellDef mat-sort-header="start_year"> God. početka </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.start_year}} </mat-cell>
-    </ng-container>
+        <!--Start year-->
+        <ng-container matColumnDef="start_year">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="start_year"> God. početka </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.start_year}} </mat-cell>
+        </ng-container>
 
-    <!--Duration-->
-    <ng-container matColumnDef="duration">
-        <mat-header-cell *matHeaderCellDef mat-sort-header="duration"> Trajanje </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.duration}} </mat-cell>
-    </ng-container>
+        <!--Duration-->
+        <ng-container matColumnDef="duration">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="duration"> Trajanje </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.duration}} </mat-cell>
+        </ng-container>
 
-    <mat-header-row *matHeaderRowDef="project_cols"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: project_cols;"></mat-row>
-</mat-table>
+        <!-- Selected -->
+        <ng-container matColumnDef="select">
+            <mat-header-cell *matHeaderCellDef>
+                Sačuvaj
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <mat-checkbox color="primary" 
+                              (click)="$event.stopPropagation()"
+                              (change)="$event ? selection.toggle(row) : null;" 
+                              [checked]="selection.isSelected(row)"
+                              [aria-label]="checkboxLabel(row)">
+                </mat-checkbox>
+            </mat-cell>
+        </ng-container>
+
+        <!-- Role -->
+        <ng-container matColumnDef="role">
+            <mat-header-cell *matHeaderCellDef> Uloga </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <mat-select placeholder="Uloga " [value] (selectionChange)="changeRole($event.value, element)">
+                    <mat-option [value]="1">Rukovodilac</mat-option>
+                    <mat-option [value]="2">Član</mat-option>
+                </mat-select>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="project_cols"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: project_cols;"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
+
+<!-- Submit -->
+<div class="submit-form">
+    <button mat-raised-button class="fin-btn" (click)="saveSelectedProjects()">
+        <mat-icon class="fin-icon">save</mat-icon>
+        Sačuvaj
+    </button>
+    <button mat-raised-button class="fin-btn" (click)="clearSelection()">
+        <mat-icon class="fin-icon">replay</mat-icon>
+        Resetuj
+    </button>
+</div>

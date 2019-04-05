@@ -3,6 +3,7 @@ import { UserService } from 'src/app/shared/user/user.service';
 import { MatSnackBar, MatTableDataSource, MatSort, MatDialog, MatExpansionPanel } from '@angular/material';
 import { Project } from '../../models/project.model';
 import { AddProjectComponent } from '../add-project/add-project.component';
+import { Profile } from 'src/app/models/profile.model';
 
 @Component({
     selector: 'app-home',
@@ -10,11 +11,11 @@ import { AddProjectComponent } from '../add-project/add-project.component';
     styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
-    userProfile: any;
-
-    projectsDs;
     project_cols = ['title', 'label', 'pmf_status', 'project_manager', 'start_year', 'duration'];
+
+    loading = true;
+    projectsDs: MatTableDataSource<Project>;
+    userProfile: Profile;
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild('projectsPanel') projectsPanel: MatExpansionPanel;
     @ViewChild('groupsPanel') groupsPanel: MatExpansionPanel;
@@ -46,6 +47,7 @@ export class HomeComponent implements OnInit {
         this.userService.currentProfile()
             .subscribe(res => {
                 this.userProfile = res;
+                this.loading = false;
             }, err => {
                 this.snack.open('Nije moguće učitati podatke.');
                 console.log('== HomeComponent - ngOnInit == ', err);
@@ -55,7 +57,7 @@ export class HomeComponent implements OnInit {
     showAddProjectDialog(): void {
         const addProjectRef = this.dialog.open(AddProjectComponent, {
             width: '850px',
-            data: {}
+            data: { profileId: this.userProfile.id }
         });
 
         addProjectRef.afterClosed().subscribe(res => {
