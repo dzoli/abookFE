@@ -77,6 +77,7 @@ export class ProfileComponent implements OnInit {
     }
 
     updateProfile() {
+        console.log('== form value ==', this.form.value);
         this.userService.updateProfile(this.userProfile, this.form.value, this.selectedFile)
             .subscribe((res) => {
                 this.snack.open('Podaci uspešno snimljeni.');

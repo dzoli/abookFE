@@ -59,7 +59,8 @@ mat-grid-tile-footer {
 }
 
 .fin-btn {
-    margin: 5x;
+    margin: 15x;
+    margin-right: 10px;
 }
 
 .body {

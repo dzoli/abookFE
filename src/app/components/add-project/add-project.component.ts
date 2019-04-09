@@ -38,7 +38,7 @@ export class AddProjectComponent implements OnInit {
                 this.allProjectsDs.paginator = this.paginator;
 
                 // init afterSelectionDs
-                this.allProjectsDs.data.forEach( (p: Project) => {
+                this.allProjectsDs.data.forEach((p: Project) => {
                     this.afterSelectionDs.set(p.id, new ProjectRole(p.id, p.title, p.label, p.pmf_status, p.project_manager, p.start_year, p.duration, -1));
                 });
 
@@ -51,8 +51,8 @@ export class AddProjectComponent implements OnInit {
     changeRole(roleId: number, project: Project) {
         console.log('selection changed == ', roleId, project);
         this.afterSelectionDs.set(project.id, new ProjectRole(project.id, project.title, project.label,
-                                                            project.pmf_status, project.project_manager, 
-                                                            project.start_year, project.duration, roleId));
+            project.pmf_status, project.project_manager,
+            project.start_year, project.duration, roleId));
     }
 
     checkboxLabel(row?: any): string {
@@ -73,28 +73,37 @@ export class AddProjectComponent implements OnInit {
     }
 
     saveSelectedProjects() {
-        this.dialogRef.close();
-        this.snack.open('Podaci uspešno sačuvani.');
-        console.log('selected ==   ', this.selection);
-        console.log(' after selection = ', this.afterSelectionDs);
+        console.log('selected == ', this.selection);
+        console.log('after selection = ', this.afterSelectionDs);
 
         let allSelectedHasRoles: boolean = true;
         let selectedProjects: Array<ProjectRole> = new Array<ProjectRole>();
         this.selection.selected.forEach(selected => {
-            if(this.afterSelectionDs.get(selected.id).role == -1){
-                this.snack.open('Za svaki projekat mora biti definisana uloga.');
-                return;
+            if (this.afterSelectionDs.get(selected.id).role == -1) {
+                allSelectedHasRoles = false;
             }
-            if (this.afterSelectionDs.has(selected.id)){
+            if (this.afterSelectionDs.has(selected.id)) {
                 selectedProjects.push(this.afterSelectionDs.get(selected.id));
             }
         })
 
-        this.userService.saveProjects(this.data.profileId, selectedProjects);
+        if (!allSelectedHasRoles) {
+            this.snack.open('Za svaki projekat mora biti definisana uloga.');
+        } else if (this.selection.selected.length == 0) {
+            this.snack.open('Nije izabran ni jedan projekat.');
+        } else {
+            this.userService.saveProjects(this.data.profileId, selectedProjects)
+                .subscribe(res => {
+                    this.snack.open('Izabrani projekti su uspešno sačuvani.');
+                    this.dialogRef.close();
+                }, err => {
+                    this.snack.open('Izabrani projekti nisu uspešno sačuvani.');
+                });
+        }
     }
 
     /* Search filter */
-    applyFilter(txtFilter) {
+    applyFilter(txtFilter: any) {
         console.log(txtFilter);
         this.allProjectsDs.filter = txtFilter.trim().toLowerCase();
     }

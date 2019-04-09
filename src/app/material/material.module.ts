@@ -27,8 +27,10 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material';
         Material.MatPaginatorModule,
         Material.MatProgressSpinnerModule,
         Material.MatSelectModule,
+        Material.MatListModule,
     ],
     exports: [
+        Material.MatListModule,
         Material.MatSelectModule,
         Material.MatProgressSpinnerModule,
         Material.MatPaginatorModule,

@@ -18,7 +18,6 @@ export class UserService {
     private baseUrl: string = environment.apiUrl;
     public loginData: any;
     public isAuthenticated: boolean;
-    public userProfile: Profile
 
     constructor(private http: HttpClient, private router: Router) {
         this.isAuthenticated = false;
@@ -42,7 +41,6 @@ export class UserService {
 
     register(userData: any): Observable<any> {
         const registerUrl = this.baseUrl + 'users/';
-        console.log('--register--', userData);
         return new Observable((o) => {
             this.http.post(registerUrl, {
                 'first_name': userData.first_name,
@@ -72,7 +70,6 @@ export class UserService {
         return new Observable((o: any) => {
             this.http.get(url, { headers: this.httpHeaders })
                 .subscribe((res: Profile) => {
-                    this.userProfile = res;
                     o.next(res);
                     return o.complete();
                 }, (err) => {
@@ -83,28 +80,57 @@ export class UserService {
 
     updateProfile(profile: any, formData: any, selectedFile: File): Observable<any> {
         const url = this.baseUrl + 'profiles/' + profile.id + '/';
-        let uploadData: FormData = new FormData();
-        uploadData.append('id', String(profile));
-        uploadData.append('department', formData.department);
-        uploadData.append('workplace', formData.workplace);
-        uploadData.append('office', formData.office);
-        uploadData.append('phone', formData.phone);
-        uploadData.append('addres', formData.addres);
-        uploadData.append('personal_web_site', formData.personal_web_site);
-        uploadData.append('user.id', this.loginData.user.id);
-        uploadData.append('user.username', formData.username);
-        uploadData.append('user.first_name', formData.first_name);
-        uploadData.append('user.last_name', formData.last_name);
-        uploadData.append('profile_img', selectedFile);
+        if (formData.profile_img != null) {
+            let multipartPayload: FormData = new FormData();
+            multipartPayload.append('id', String(profile.id));
+            multipartPayload.append('department', formData.department);
+            multipartPayload.append('workplace', formData.workplace);
+            multipartPayload.append('office', formData.office);
+            multipartPayload.append('phone', formData.phone);
+            multipartPayload.append('address', formData.addres);
+            multipartPayload.append('personal_web_site', formData.personal_web_site);
+            multipartPayload.append('user.id', this.loginData.user.id);
+            multipartPayload.append('user.username', formData.username);
+            multipartPayload.append('user.first_name', formData.first_name);
+            multipartPayload.append('user.last_name', formData.last_name);
+            multipartPayload.append('profile_img', selectedFile);
 
-        return new Observable((o: any) => {
-            this.http.put(url, uploadData).subscribe((res) => {
-                o.next(res);
-                return o.complete();
-            }, (err) => {
-                o.error(err);
+            return new Observable((o: any) => {
+                this.http.put(url, multipartPayload).subscribe((res) => {
+                    o.next(res);
+                    this.router.navigateByUrl('contacts/home');
+                    return o.complete();
+                }, (err) => {
+                    o.error(err);
+                });
             });
-        });
+        } else {
+            let jsonPayload = {
+                'id': profile.id,
+                'department': formData.department,
+                'workplace': formData.workplace,
+                'office': formData.office,
+                'phone': formData.phone,
+                'address': formData.address,
+                'personal_web_site': formData.personal_web_site,
+                'user': {
+                    'id': this.loginData.user.id,
+                    'username': formData.username,
+                    'first_name': formData.first_name,
+                    'last_name': formData.last_name
+                }
+            };
+            return new Observable((o: any) => {
+                this.http.put(url, jsonPayload, { headers: this.httpHeaders })
+                    .subscribe((res) => {
+                        o.next(res);
+                        this.router.navigateByUrl('contacts/home');
+                        return o.complete();
+                    }, (err) => {
+                        o.error(err)
+                    });
+            })
+        }
     }
 
     userProjects(): Observable<Project[]> {
@@ -131,6 +157,11 @@ export class UserService {
 
     allRoles(): Observable<any> {
         const url = this.baseUrl + 'roles/';
+        return this.http.get(url, { headers: this.httpHeaders });
+    }
+
+    coursesForProfesor(profesorId: number): Observable<any> {
+        const url = this.baseUrl + 'courses/?id=' + profesorId;
         return this.http.get(url, { headers: this.httpHeaders });
     }
 }

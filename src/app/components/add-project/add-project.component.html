@@ -77,7 +77,7 @@
 
 <!-- Submit -->
 <div class="submit-form">
-    <button mat-raised-button class="fin-btn" (click)="saveSelectedProjects()">
+    <button mat-raised-button class="fin-btn" [disabled]="selection.selected.length == 0" (click)="saveSelectedProjects()">
         <mat-icon class="fin-icon">save</mat-icon>
         Sačuvaj
     </button>

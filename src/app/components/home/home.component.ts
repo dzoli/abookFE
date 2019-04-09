@@ -4,6 +4,8 @@ import { MatSnackBar, MatTableDataSource, MatSort, MatDialog, MatExpansionPanel 
 import { Project } from '../../models/project.model';
 import { AddProjectComponent } from '../add-project/add-project.component';
 import { Profile } from 'src/app/models/profile.model';
+import { Course } from 'src/app/models/course.model';
+import {map, switchMap} from 'rxjs/operators';
 
 @Component({
     selector: 'app-home',
@@ -13,16 +15,18 @@ import { Profile } from 'src/app/models/profile.model';
 export class HomeComponent implements OnInit {
     project_cols = ['title', 'label', 'pmf_status', 'project_manager', 'start_year', 'duration'];
 
-    loading = true;
     projectsDs: MatTableDataSource<Project>;
+    coursesDs: Array<Course>;
     userProfile: Profile;
+    loading: boolean = true;
+
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild('projectsPanel') projectsPanel: MatExpansionPanel;
     @ViewChild('groupsPanel') groupsPanel: MatExpansionPanel;
 
     constructor(private userService: UserService,
-                private snack: MatSnackBar,
-                private dialog: MatDialog) {
+        private snack: MatSnackBar,
+        private dialog: MatDialog) {
         // this.userProfile = {
         //     'address': "adr 124",
         //     'department': "dep 1",
@@ -37,20 +41,16 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.userService.userProjects()
-            .subscribe(res => {
-                this.projectsDs = new MatTableDataSource(res);
-                this.projectsDs.sort = this.sort;
-            }, err => {
-                console.log('== HomeComponent - ngOnInit ==', err);
-            });
+        this.refreshUserData();
         this.userService.currentProfile()
-            .subscribe(res => {
-                this.userProfile = res;
-                this.loading = false;
-            }, err => {
-                this.snack.open('Nije moguće učitati podatke.');
-                console.log('== HomeComponent - ngOnInit == ', err);
+            .pipe(map((res: any) => { 
+                    this.userProfile = res;
+                    this.loading = false;
+                    return this.userProfile.id;}), 
+                  switchMap(id => this.userService.coursesForProfesor(id)))
+            .subscribe((courses: Array<Course>) => {
+                this.coursesDs = courses;
+                console.log(this.coursesDs);
             });
     }
 
@@ -61,9 +61,19 @@ export class HomeComponent implements OnInit {
         });
 
         addProjectRef.afterClosed().subscribe(res => {
+            this.refreshUserData();
             this.projectsPanel.open();
             this.groupsPanel.close();
         });
     }
 
+    private refreshUserData() {
+        this.userService.userProjects()
+            .subscribe(res => {
+                this.projectsDs = new MatTableDataSource<Project>(res);
+                this.projectsDs.sort = this.sort;
+            }, err => {
+                console.log('== HomeComponent - refreshUserData() == ', err);
+            });
+    }
 }

@@ -97,6 +97,8 @@
         
         <mat-grid-list cols="1" rowHeight="40px" class="submit-form">
             <mat-grid-tile>
+                <!-- [disabled]="form.pristine" -->
+                <!-- [disabled]="!form.dirty" -->
                 <button mat-raised-button class="fin-btn" (click)="updateProfile()">
                     <mat-icon class="fin-icon">save</mat-icon>
                     Sačuvaj

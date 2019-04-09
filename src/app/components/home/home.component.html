@@ -3,7 +3,7 @@
     <mat-card-title>{{userProfile.user.first_name}} {{userProfile.user.last_name}}</mat-card-title>
     <mat-card-content>
         <div class="container" fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutWrap fxLayoutGap="0.5%">
-            <div class="wrapper" fxFlex="30%" *ngIf="!loading">
+            <div class="wrapper" fxFlex="30%">
                 <img *ngIf="userProfile.profile_img != null" src="{{userProfile.profile_img}}" class="image--cover">
                 <img *ngIf="userProfile.profile_img == null" src="assets/profile-img.png" class="image--cover">
             </div>
@@ -37,7 +37,8 @@
                     </mat-panel-description>
                 </mat-expansion-panel-header>
 
-                <mat-table [dataSource]="projectsDs" class="mat-elevation-z8" matSort>
+                <mat-table *ngIf="projectsDs.data.length != 0" [dataSource]="projectsDs" class="mat-elevation-z8"
+                    matSort>
                     <!--Title-->
                     <ng-container matColumnDef="title">
                         <mat-header-cell *matHeaderCellDef mat-sort-header="title"> Naslov </mat-header-cell>
@@ -92,12 +93,19 @@
                         Prikaži istraživačke grupe
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <p>Grupa </p>
-                <p>Grupa </p>
-                <p>Grupa </p>
+
+                <mat-list>
+                    <mat-list-item *ngFor="let c of coursesDs">
+                        <mat-icon mat-list-icon>chrome_reader_mode</mat-icon>
+                        <h4 mat-line>{{c.title}}</h4>
+                         <mat-divider></mat-divider>
+                    </mat-list-item>
+                </mat-list>
+
                 <mat-action-row>
-                        <button mat-button color="primary" (click)="showAddProjectDialog()">Dodaj istraživačku grupu</button>
-                    </mat-action-row>
+                    <button mat-button color="primary" (click)="showAddProjectDialog()">Dodaj istraživačku
+                        grupu</button>
+                </mat-action-row>
             </mat-expansion-panel>
         </mat-accordion>
     </mat-card-footer>
