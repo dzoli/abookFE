@@ -5,7 +5,7 @@
         <div class="container" fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutWrap fxLayoutGap="0.5%">
             <div class="wrapper" fxFlex="30%">
                 <img *ngIf="userProfile.profile_img != null" src="{{userProfile.profile_img}}" class="image--cover">
-                <img *ngIf="userProfile.profile_img == null" src="../../assets/profile-img.png" class="image--cover">
+                <img *ngIf="userProfile.profile_img == null" src="./assets/profile-img.png" class="image--cover">
             </div>
             <div class="content" fxFlex="70%">
                 <div>
@@ -33,7 +33,7 @@
                         Projekti
                     </mat-panel-title>
                     <mat-panel-description>
-                        Kursevi
+                        Prikaži projekte
                     </mat-panel-description>
                 </mat-expansion-panel-header>
 
@@ -87,7 +87,7 @@
             <mat-expansion-panel #groupsPanel>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        Istraživanke grupe
+                        Kursevi
                     </mat-panel-title>
                     <mat-panel-description>
                         Prikaži kurseve
