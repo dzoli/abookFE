@@ -30,6 +30,7 @@ export class UserService {
                 .subscribe((res) => {
                     this.loginData = res;
                     this.isAuthenticated = true;
+                    console.log('loginData', this.loginData);
                     this.router.navigateByUrl('contacts/home');
                     o.next(res);
                     return o.complete();
