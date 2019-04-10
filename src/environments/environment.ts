@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8000/api/'
-    // apiUrl: 'https://blooming-retreat-35769.herokuapp.com/api/'
+  //apiUrl: 'http://localhost:8000/api/'
+  apiUrl: 'https://blooming-retreat-35769.herokuapp.com/api/'
 };
 
 /*
