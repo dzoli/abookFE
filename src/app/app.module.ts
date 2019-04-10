@@ -17,6 +17,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { HomeComponent } from './components/home/home.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AddProjectComponent } from './components/add-project/add-project.component';
+import { AddCourseComponent } from './components/add-course/add-course.component';
 
 @NgModule({
     declarations: [
@@ -26,7 +27,8 @@ import { AddProjectComponent } from './components/add-project/add-project.compon
         RegisterComponent,
         ProfileComponent,
         HomeComponent,
-        AddProjectComponent
+        AddProjectComponent,
+        AddCourseComponent
     ],
     imports: [
         BrowserModule,
@@ -41,7 +43,8 @@ import { AddProjectComponent } from './components/add-project/add-project.compon
     providers: [UserService],
     bootstrap: [AppComponent],
     entryComponents: [
-        AddProjectComponent
+        AddProjectComponent,
+        AddCourseComponent
     ]
 })
 export class AppModule { }

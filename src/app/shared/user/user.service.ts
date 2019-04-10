@@ -8,6 +8,8 @@ import { Project } from '../../models/project.model';
 import { ProjectMembership } from 'src/app/models/project-membership.models';
 import { ProjectRole } from 'src/app/models/project-role.models';
 import { Profile } from 'src/app/models/profile.model';
+import { Course } from 'src/app/models/course.model';
+import { CourseMembership } from 'src/app/models/course-membership';
 
 @Injectable({
     providedIn: 'root'
@@ -143,6 +145,16 @@ export class UserService {
         const url = this.baseUrl + 'projects/?nid=' + this.loginData.user.id;
         return this.http.get<Project[]>(url, { headers: this.httpHeaders });
     }
+    
+    coursesForProfesor(): Observable<any> {
+        const url = this.baseUrl + 'courses/?id=' +  this.loginData.user.id;
+        return this.http.get(url, { headers: this.httpHeaders });
+    }
+
+    allCourses(): Observable<any> {
+        const url = this.baseUrl + 'courses/?nid=' +  this.loginData.user.id;
+        return this.http.get(url, { headers: this.httpHeaders });
+    }
 
     saveProjects(profileId: number, selectedProjects: ProjectRole[]): Observable<any> {
         const url = this.baseUrl + 'projectmemberships/';
@@ -156,13 +168,20 @@ export class UserService {
         return this.http.post(url, memberships, { headers: this.httpHeaders });
     }
 
-    allRoles(): Observable<any> {
-        const url = this.baseUrl + 'roles/';
-        return this.http.get(url, { headers: this.httpHeaders });
+    saveCourses(profileId: number, selectedCourses: Course[]): Observable<any> {
+        const url = this.baseUrl + 'coursememberships/';
+        let memberships: Array<CourseMembership> = new Array<CourseMembership>();
+
+        selectedCourses.forEach(c => {
+            memberships.push(new CourseMembership(profileId, c.id));
+        });
+
+        console.log('-- selected membersip-courses -- ', memberships);
+        return this.http.post(url, memberships, { headers: this.httpHeaders });
     }
 
-    coursesForProfesor(profesorId: number): Observable<any> {
-        const url = this.baseUrl + 'courses/?id=' + profesorId;
+    allRoles(): Observable<any> {
+        const url = this.baseUrl + 'roles/';
         return this.http.get(url, { headers: this.httpHeaders });
     }
 }

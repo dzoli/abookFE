@@ -1,0 +1,64 @@
+<mat-toolbar>
+    <mat-icon style="font-size: 34px; margin: 15px;">search</mat-icon>
+    <mat-form-field [floatLabel]="'never'" [hideRequiredMarker]="true">
+        <input matInput placeholder="Pretraživanje..." (keyup)="applyFilter($event.target.value)">
+    </mat-form-field>
+</mat-toolbar>
+
+<div class="mat-elevation-z8">
+    <mat-table [dataSource]="allCoursesDs" matSort>
+        <!--Label-->
+        <ng-container matColumnDef="no">
+            <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+            <mat-cell *matCellDef="let element; let i = index"> {{i+ 1}}  </mat-cell>
+        </ng-container>
+
+        <!--Title-->
+        <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="title"> Naslov </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
+        </ng-container>
+
+        <!-- Selected -->
+        <ng-container matColumnDef="select">
+            <mat-header-cell *matHeaderCellDef>
+                Sačuvaj
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <mat-checkbox color="primary" 
+                              (click)="$event.stopPropagation()"
+                              (change)="$event ? selection.toggle(row) : null;" 
+                              [checked]="selection.isSelected(row)"
+                              [aria-label]="checkboxLabel(row)">
+                </mat-checkbox>
+            </mat-cell>
+        </ng-container>
+
+        <!-- Role -->
+        <!-- <ng-container matColumnDef="role">
+            <mat-header-cell *matHeaderCellDef> Uloga </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <mat-select placeholder="Uloga " [value] (selectionChange)="changeRole($event.value, element)">
+                    <mat-option [value]="1">Profesor</mat-option>
+                    <mat-option [value]="2">Asistent</mat-option>
+                </mat-select>
+            </mat-cell>
+        </ng-container> -->
+
+        <mat-header-row *matHeaderRowDef="course_cols"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: course_cols;"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
+
+<!-- Submit -->
+<div class="submit-form">
+    <button mat-raised-button class="fin-btn" [disabled]="selection.selected.length == 0" (click)="saveSelectedCourses()">
+        <mat-icon class="fin-icon">save</mat-icon>
+        Sačuvaj
+    </button>
+    <button mat-raised-button class="fin-btn" (click)="clearSelection()">
+        <mat-icon class="fin-icon">replay</mat-icon>
+        Resetuj
+    </button>
+</div>

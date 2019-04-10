@@ -95,16 +95,15 @@
                 </mat-expansion-panel-header>
 
                 <mat-list>
-                    <mat-list-item *ngFor="let c of coursesDs">
+                    <mat-list-item *ngFor="let c of coursesDs; let idx = index;">
                         <mat-icon mat-list-icon>chrome_reader_mode</mat-icon>
                         <h4 mat-line>{{c.title}}</h4>
-                         <mat-divider></mat-divider>
+                         <mat-divider *ngIf="idx == coursesDs.length"></mat-divider>
                     </mat-list-item>
                 </mat-list>
 
                 <mat-action-row>
-                    <button mat-button color="primary" (click)="showAddProjectDialog()">Dodaj istraživačku
-                        grupu</button>
+                    <button mat-button color="primary" (click)="showAddCoursesDialog()">Dodaj kurs</button>
                 </mat-action-row>
             </mat-expansion-panel>
         </mat-accordion>

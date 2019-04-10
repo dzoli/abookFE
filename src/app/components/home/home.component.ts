@@ -6,6 +6,7 @@ import { AddProjectComponent } from '../add-project/add-project.component';
 import { Profile } from 'src/app/models/profile.model';
 import { Course } from 'src/app/models/course.model';
 import {map, switchMap} from 'rxjs/operators';
+import { AddCourseComponent } from '../add-course/add-course.component';
 
 @Component({
     selector: 'app-home',
@@ -26,31 +27,19 @@ export class HomeComponent implements OnInit {
 
     constructor(private userService: UserService,
         private snack: MatSnackBar,
-        private dialog: MatDialog) {
-        // this.userProfile = {
-        //     'address': "adr 124",
-        //     'department': "dep 1",
-        //     'id': '1',
-        //     'office': "office 12222",
-        //     'personal_web_site': "https://www.google.rs/",
-        //     'phone': "021 / 021 021 021",
-        //     'profile_img': "http://localhost:8000/media/images/admin_s/Buenos-Aires-for-desktop_IP8NkxW.jpg",
-        //     'user': {'id': 1, 'username': "admin_s", 'first_name': "admin_s22232", 'last_name': "aaaa1"},
-        //     'workplace': "workplace 12"
-        // }
-    }
+        private dialog: MatDialog) {}
 
     ngOnInit() {
-        this.refreshUserData();
-        this.userService.currentProfile()
+        this.refreshUserData(); // get projects
+        this.userService.currentProfile()   // get courses
             .pipe(map((res: any) => { 
                     this.userProfile = res;
                     this.loading = false;
                     return this.userProfile.id;}), 
-                  switchMap(id => this.userService.coursesForProfesor(id)))
+                  switchMap(id => this.userService.coursesForProfesor()))
             .subscribe((courses: Array<Course>) => {
                 this.coursesDs = courses;
-                console.log(this.coursesDs);
+                console.log(' == init courses ==', this.coursesDs);
             });
     }
 
@@ -66,6 +55,28 @@ export class HomeComponent implements OnInit {
             this.groupsPanel.close();
         });
     }
+
+    showAddCoursesDialog(): void {
+        const addProjectRef = this.dialog.open(AddCourseComponent, {
+            width: '850px',
+            data: { profileId: this.userProfile.id }
+        });
+
+        addProjectRef.afterClosed().subscribe(res => {
+            this.refreshCoursesData();
+            this.projectsPanel.close();
+            this.groupsPanel.open();
+        });
+    }
+
+    private refreshCoursesData() {
+        this.userService.coursesForProfesor()
+                .subscribe(res => {
+                    this.coursesDs = res;
+                    console.log('-- courses refreshed ==', this.coursesDs);
+                });
+    }
+
 
     private refreshUserData() {
         this.userService.userProjects()
